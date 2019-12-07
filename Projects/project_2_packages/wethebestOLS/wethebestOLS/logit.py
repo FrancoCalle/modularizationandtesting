@@ -1,6 +1,5 @@
 import sys
 import os
-import path
 import numpy as np
 import scipy as linalg
 from scipy.optimize import minimize
