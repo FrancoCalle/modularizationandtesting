@@ -10,7 +10,7 @@ from logit import objectiveFunction
 
 class test_beta_logit( unittest.TestCase ) :
 
-    def test_beta(self):
+    def test_beta_logit(self):
 
         # Generate fake data
         nObs = 10000
