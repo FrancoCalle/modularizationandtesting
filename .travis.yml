@@ -1,13 +1,12 @@
 language: python
 python:
-  - "3.5"
+  # - "3.5"
   - "3.6"      # current default Python on Travis CI
 # command to install dependencies
 before_install:
   - cd Projects/project_2_packages/wethebestOLS
 install:
   - pip install -r requirements.txt
-  - pip install .
 # command to run tests
 script:
   - cd wethebestOLS/tests
