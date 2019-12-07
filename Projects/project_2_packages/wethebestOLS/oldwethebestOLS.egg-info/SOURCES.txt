@@ -1,0 +1,9 @@
+README.md
+setup.py
+oldwethebestOLS.egg-info/PKG-INFO
+oldwethebestOLS.egg-info/SOURCES.txt
+oldwethebestOLS.egg-info/dependency_links.txt
+oldwethebestOLS.egg-info/top_level.txt
+wethebestOLS/__init__.py
+wethebestOLS/logit.py
+wethebestOLS/ols.py

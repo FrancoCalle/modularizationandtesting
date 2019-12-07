@@ -4,8 +4,8 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="wethebestOLS",
-    version="0.0.10",
+    name="oldwethebestOLS",
+    version="0.0.11",
     author="Group 1",
     author_email="author@example.com",
     description="A package that implements OLS and logit.",
