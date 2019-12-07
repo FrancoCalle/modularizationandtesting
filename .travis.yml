@@ -8,9 +8,11 @@ python:
   - "nightly"  # nightly build
 # command to install dependencies
 before_install:
-  - cd Projects/project_2_packages/wethebestOLS/wethebestOLS/tests
+  - cd Projects/project_2_packages/wethebestOLS/wethebestOLS
 install:
   - pip install -r requirements.txt
 # command to run tests
+before_tests:
+  - cd tests
 script:
   - python -m unittest
