@@ -29,7 +29,7 @@ def ols(y, X):
         raise Exception('XpX Matrix is singular')
 
     β = calc_beta(y, XpX, Xpy)
-    se = calc_se(y, X, β, XpX)
+    se, vcv = calc_vcv(y, X, β, XpX)
 
     return β, se
 
@@ -85,7 +85,7 @@ def calc_mean_se(y, X, β):
         mean_se = sse/(N - K)
         return mean_se
 
-def calc_se(y, X, β, XpX):
+def calc_vcv(y, X, β, XpX):
 
         """
         Calculates standard errors
@@ -105,9 +105,11 @@ def calc_se(y, X, β, XpX):
         -------
         se : np.array((K, 1), float64)
             Standard errors of OLS estimates
+        vcv: np.array((K, K), float64)
+            Covariance Matrix
         """
 
         mean_se = calc_mean_se(y, X, β)
-        σ2 = mean_se*np.linalg.inv(XpX)
-        se = np.sqrt(np.diag(σ2))
-        return se
+        vcv = mean_se*np.linalg.inv(XpX)
+        se = np.sqrt(np.diag(vcv))
+        return se, vcv
