@@ -31,7 +31,7 @@ def ols(y, X):
     β = calc_beta(y, XpX, Xpy)
     se, vcv = calc_vcv(y, X, β, XpX)
 
-    return β, se
+    return β, se, vcv
 
 
 def calc_beta(y, XpX, Xpy):
