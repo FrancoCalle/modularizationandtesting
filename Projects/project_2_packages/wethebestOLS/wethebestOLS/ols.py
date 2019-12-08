@@ -2,6 +2,7 @@ import numpy as np
 from numpy.linalg import matrix_rank
 
 def ols(y, X):
+
     """
     This is THE BEST ols.
 
@@ -20,31 +21,95 @@ def ols(y, X):
         standard errors of the coefficients
     """
 
-    if matrix_rank(X) == X.shape[1]:
+    Xp = X.T
+    XpX = Xp@X
+    Xpy = Xp@y
 
-        # Solve for beta hat
-        XpX = X.T@X
-        Xpy = X.T@y
+    if np.linalg.det(XpX) == 0:
+        raise Exception('XpX Matrix is singular')
+
+    β = calc_beta(y, XpX, Xpy)
+    se, vcv = calc_vcv(y, X, β, XpX)
+
+    return β, se
+
+
+def calc_beta(y, XpX, Xpy):
+
+        """
+        Uses normal equations to calculate OLS coefficients.
+
+        Parameters
+        ----------
+        y : np.array((N, 1), float64)
+            N by 1 response vector
+        XpX : np.array((K, K), float64)
+            X transpose X
+
+        Returns
+        -------
+        beta : np.array((K, 1), float64)
+            Vector of OLS coefficients
+        """
+
+        XpX.shape
+
         β = np.linalg.inv(XpX)@Xpy
+        return β
 
-        # Calculate mean squared error
+def calc_mean_se(y, X, β):
+
+        """
+        Calculates mean squared error
+
+        Parameters
+        ----------
+        y : np.array((N, 1), float64)
+            N by 1 response vector
+        X : np.array((N, K), float64)
+            Covariate matrix.
+        beta : np.array((K, 1), float64)
+            OLS coefficients
+
+        Returns
+        -------
+        mean_se : float64
+            Mean squared error
+        """
+
         pred = X@β
         resid = y - pred
         sse = sum(resid**2)[0]
         N = X.shape[0]
         K = X.shape[1]
-        mean_sse = sse/(N - K)
+        mean_se = sse/(N - K)
+        return mean_se
 
+def calc_vcv(y, X, β, XpX):
 
-        # Calculate vcv matrix for beta
-        σ2 = mean_sse*np.linalg.inv(XpX)
-        # Extract SEs from the diagnal
-        se = np.sqrt(np.diag(σ2))
+        """
+        Calculates standard errors
 
-    else:
+        Parameters
+        ----------
+        y : np.array((N, 1), float64)
+            N by 1 response vector
+        X : np.array((N, K), float64)
+            Covariate matrix.
+        beta : np.array((K, 1), float64)
+            OLS coefficients
+        XpX : np.array((K, K), float64)
+            X transpose X
 
-        print("Error: matrix does not have full rank, returning nans")
-        β   = np.nan
-        se  = np.nan
+        Returns
+        -------
+        se : np.array((K, 1), float64)
+            Standard errors of OLS estimates
+        vcv: np.array((K, K), float64)
+            Covariance Matrix
+        """
 
-    return β, se
+        mean_se = calc_mean_se(y, X, β)
+        vcv = mean_se*np.linalg.inv(XpX)
+        se = np.sqrt(np.diag(vcv))
+        return se, vcv
